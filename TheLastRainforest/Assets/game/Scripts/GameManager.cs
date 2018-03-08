@@ -15,7 +15,11 @@ public class GameManager : MonoBehaviour {
 		} else {
 			Destroy (gameObject);
 		}
+		DontDestroyOnLoad(gameObject);
+
 	}
+
+
 
 	// Use this for initialization
 	void Start () {
