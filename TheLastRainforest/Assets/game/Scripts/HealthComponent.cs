@@ -9,9 +9,13 @@ public class HealthComponent : MonoBehaviour {
     public int currentHealth;
     public int regenerationDelay; // the higher this is the less the unit will regen
     private int counter;
+
+    public GameObject prefab;
+
 	// Use this for initialization
 	void Start () {
         counter = 0;
+        //Spawn(new Vector3(320, 0, 130)); // do not do this in start, infinite loop out of RAM
 		
 	}
 	
@@ -35,6 +39,12 @@ public class HealthComponent : MonoBehaviour {
         }
 		
 	}
+
+    public void Spawn(Vector3 input)
+    {
+        GameObject newUnit = Instantiate(prefab);
+        newUnit.transform.position = input;
+    }
 
     public bool IsDead()
     {
