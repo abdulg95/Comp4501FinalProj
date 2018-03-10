@@ -1,0 +1,1 @@
+Player units are the two moneys and gorilla click on them to select them

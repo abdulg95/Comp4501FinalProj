@@ -1,28 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class RtsMousePointerController : MonoBehaviour {
-	RaycastHit hit;
-	private float raycastlength = 500;
-	public GameObject Target;
 
-	
+	public  GameObject selectedObject;
+
+	// Use this for initialization
+	void Start () {
+
+	}
+
 	// Update is called once per frame
 	void Update () {
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		if (Physics.Raycast (ray, out hit, raycastlength)) {
-			Debug.Log(hit.collider.name);
-			if (hit.collider.name == "Terrain") {
-				//when cliclked instantiate object
-				if (Input.GetMouseButtonDown (1)) 
-				{
-					GameObject TargetObject = Instantiate (Target,hit.point,Quaternion.identity) as GameObject;
-					TargetObject.name = "Target Instantiated";
-				}
-				Target.transform.position = hit.point;
+		if (Input.GetMouseButtonDown (0)) {
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+			RaycastHit hitInfo;
+
+			if (Physics.Raycast (ray, out hitInfo)) {
+
+				Debug.Log ("Mouse is over: " + hitInfo.collider.name);
+
+				GameObject hitObject = hitInfo.transform.gameObject;
+
+
+				SelectObject (hitObject);
+			} else {
+				ClearSelection ();
 			}
 		}
-		Debug.DrawRay (ray.origin, ray.direction * raycastlength, Color.yellow);
+
+	}
+
+	void SelectObject(GameObject obj) {
+		if(selectedObject != null) {
+			if(obj == selectedObject)
+				return;
+
+			ClearSelection();
+		}
+
+		selectedObject = obj;
+	}
+
+	void ClearSelection() {
+		if(selectedObject == null)
+			return;
+
+		selectedObject = null;
 	}
 }
