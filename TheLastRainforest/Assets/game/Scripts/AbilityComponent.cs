@@ -10,7 +10,8 @@ public class AbilityComponent : MonoBehaviour {
     private int timer;
     public bool targetIsPosition;
     public Animation anim;
-    public string name;
+    public string abilityName;
+    public GameObject aBuilding; // do this better
     
 	// Use this for initialization
 	void Start () {
@@ -23,14 +24,30 @@ public class AbilityComponent : MonoBehaviour {
         {
             timer--;
         }
-	}
+        if (Input.GetKeyDown("space"))
+        {
+            Vector3 target = gameObject.transform.position;
+            target += 3 * gameObject.transform.forward;
+            UseOn(target);
+        }
+    }
 
     public bool UseOn(Vector3 target)
     {
+
+        if (abilityName == "build")
+        {
+            aBuilding.GetComponent<HealthComponent>().Spawn(target);
+
+        }
         //need a different method for each ability, or each name. 
 
         return false;
     }
+
+
+
+
 
     public bool IsReady()
     {

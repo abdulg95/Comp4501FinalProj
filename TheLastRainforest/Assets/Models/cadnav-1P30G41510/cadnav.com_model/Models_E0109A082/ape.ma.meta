@@ -4,7 +4,16 @@ timeCreated: 1520559515
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: pasted__DrawCall_0057
+    400000: //RootNode
+    400002: pasted__DrawCall_0057
+    2100000: pasted__ecf477a5_dds1
+    2300000: pasted__DrawCall_0057
+    3300000: pasted__DrawCall_0057
+    4300000: pasted__DrawCall_0057
+    9500000: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1
