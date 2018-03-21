@@ -35,9 +35,31 @@ public class AbilityComponent : MonoBehaviour {
     public bool UseOn(Vector3 target)
     {
 
-        if (abilityName == "build")
+        switch (abilityName)
         {
-            aBuilding.GetComponent<HealthComponent>().Spawn(target);
+            case "build":
+                aBuilding.GetComponent<HealthComponent>().Spawn(target);
+                break;
+            case "enterTreestand":
+                break;
+            case "releaseMonkey":
+                break;
+            case "barrage":
+                break;
+            case "slam":
+                break;
+            case "spawn":
+                break;
+            case "explode":
+                break;
+            case "demolish":
+                break;
+            case "frenzy":
+                break;
+            case "emptyPit":
+                break;
+            case "gameOver":
+                break;
 
         }
         //need a different method for each ability, or each name. 
