@@ -27,7 +27,7 @@ public class AbilityComponent : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             Vector3 target = gameObject.transform.position;
-            target += 3 * gameObject.transform.forward;
+            target += 30 * gameObject.transform.forward;
             UseOn(target);
         }
     }
@@ -59,6 +59,9 @@ public class AbilityComponent : MonoBehaviour {
             case "emptyPit":
                 break;
             case "gameOver":
+                break;
+            case "testing":
+                GetComponent<MovementComponent>().MoveTo(target);
                 break;
 
         }

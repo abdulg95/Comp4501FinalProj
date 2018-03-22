@@ -369,6 +369,34 @@ Prefab:
       propertyPath: m_Name
       value: axeman
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 845fe83a111d24d4bab148fd1d86e23b, type: 2}
+    - target: {fileID: 400022, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.091414735
+      objectReference: {fileID: 0}
+    - target: {fileID: 400022, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400022, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400022, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 10.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 400022, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99581295
+      objectReference: {fileID: 0}
+    - target: {fileID: 400668, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
   m_IsPrefabParent: 0
@@ -406,9 +434,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846efd34c88fc77419ec6f2adb619305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
+  maxSpeed: 3
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!114 &102907940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +453,7 @@ MonoBehaviour:
   range: 0
   targetIsPosition: 0
   anim: {fileID: 0}
-  abilityName: 
+  abilityName: testing
   aBuilding: {fileID: 0}
 --- !u!114 &102907941
 MonoBehaviour:
@@ -440,6 +469,34 @@ MonoBehaviour:
   damage: 0
   range: 0
   target: {fileID: 0}
+--- !u!136 &102907943
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102907937}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.1791
+  m_Height: 22.317886
+  m_Direction: 1
+  m_Center: {x: 0, y: 10.658943, z: -0.12462616}
+--- !u!54 &102907944
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102907937}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &138092499
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,6 +745,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!114 &206120263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,6 +925,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!64 &352222367
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -961,6 +1020,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!64 &363981966
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1054,6 +1114,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!114 &374582155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1525,6 +1586,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!114 &589995291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1986,39 +2048,63 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 102907936}
+    m_TransformParent: {fileID: 1006721033}
     m_Modifications:
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.910004
+      value: -2.506381
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.29
+      value: -2.20451
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.7799988
+      value: -0.6096343
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.83333355
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.83333325
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.83333296
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9493ea15cab482649914049743303461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9493ea15cab482649914049743303461, type: 3}
@@ -2077,6 +2163,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 430626fe454e54d97a562c9cbddc0883, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &1006721033 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400586, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+  m_PrefabInternal: {fileID: 102907935}
 --- !u!1 &1048011304
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,6 +2788,7 @@ MonoBehaviour:
   maxSpeed: 11
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!1 &1396898192
 GameObject:
   m_ObjectHideFlags: 0
@@ -2745,6 +2836,7 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
+  arrivalThreshold: 10
 --- !u!114 &1396898195
 MonoBehaviour:
   m_ObjectHideFlags: 0
