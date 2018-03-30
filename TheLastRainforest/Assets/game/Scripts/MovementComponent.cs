@@ -15,6 +15,7 @@ public class MovementComponent : MonoBehaviour {
     Vector3 final_pos;
 
 
+
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -28,6 +29,7 @@ public class MovementComponent : MonoBehaviour {
         return (Mathf.Sin(t * Mathf.PI - Mathf.PI / 2.0f) + 1.0f) / 2.0f;
     }
 
+    /*
     IEnumerator MoveWithEase()
     {
         // Perform linear interpolation of positions to move
@@ -39,6 +41,7 @@ public class MovementComponent : MonoBehaviour {
         this.transform.position = final_pos;
         yield return null;
     }
+    */
 
     // Update is called once per frame
     void Update () {
@@ -46,10 +49,15 @@ public class MovementComponent : MonoBehaviour {
         {
             Vector3 distance = target - transform.position;
             Vector3 steering;
+            Vector3 temp;
 
             if (Vector3.Magnitude(distance) > arrivalThreshold)
             {
                 steering = Vector3.Normalize(distance) * maxSpeed - rb.velocity;
+                //while (Vector3.Magnitude(steering) < 1 * Vector3.Magnitude(rb.velocity))
+                //{
+                //    steering *= 1;
+                //}
                 Debug.Log(rb.velocity);
             }
             else
@@ -57,12 +65,20 @@ public class MovementComponent : MonoBehaviour {
                 steering = Vector3.Normalize(distance) * maxSpeed * (Vector3.Magnitude(distance) / arrivalThreshold) - rb.velocity;
                 Debug.Log("arriving now");
             }
-            rb.AddRelativeForce(steering);
-            if(steering == empty)
+            steering.y = 0;//sterilize
+            rb.AddForce(steering);
+            if (Vector3.Magnitude(rb.velocity) > 1)
+            {
+                temp = Vector3.Normalize(rb.velocity);
+                temp.y = 0; //sterilize
+                gameObject.transform.forward = temp;
+            }
+            if (steering == empty)
             {
                 needsToMove = false;
             }
             Debug.Log("force added: " + steering + " " + Vector3.Normalize(distance));
+            Debug.Log("headed from: " + gameObject.transform.position + " headed to: " + target);
         }
 		
 	}
@@ -71,6 +87,8 @@ public class MovementComponent : MonoBehaviour {
     {
        
         target = t;
+        target.y = 0;//sterilize, prevent moving on highground
+        Debug.Log("moving to: " + t);
         needsToMove = true;
 
       

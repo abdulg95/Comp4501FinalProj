@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour {
         gos = new GameObject[10];
         for (int i = 0; i < gos.Length; i++)
         {
-            gos[i] = Instantiate(prefab, new Vector3(i * 2.0F, 0, 0), Quaternion.identity);
-            Debug.Log("cloning" + "" + prefab.name + "object");
+            gos[i] = Instantiate(prefab, new Vector3(i * 2.0F +330, 0, 136), Quaternion.identity);
+            //Debug.Log("cloning" + "" + prefab.name + "object with velocity: "+ gos[i].GetComponent<Rigidbody>().velocity);
 
 
         }

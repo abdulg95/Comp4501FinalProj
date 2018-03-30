@@ -62,6 +62,7 @@ public class AbilityComponent : MonoBehaviour {
                 break;
             case "testing":
                 GetComponent<MovementComponent>().MoveTo(target);
+                Debug.Log("atempting to move " + gameObject);
                 break;
 
         }

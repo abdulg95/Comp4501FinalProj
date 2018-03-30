@@ -24,13 +24,13 @@ AnimationClip:
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: {x: 8.8, y: 69.71763, z: 0}
+        value: {x: 8.8, y: 69.21502, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 1.9833333
-        value: {x: 8.8, y: -64.42863, z: 0}
+        time: 1.95
+        value: {x: 8.8, y: -69.95732, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -62,7 +62,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.9833333
+    m_StopTime: 1.95
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -111,13 +111,13 @@ AnimationClip:
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 69.71763
+        value: 69.21502
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 1.9833333
-        value: -64.42863
+        time: 1.95
+        value: -69.95732
         inSlope: 0
         outSlope: 0
         tangentMode: 136

@@ -108,13 +108,23 @@ public class wanderBehaviour : MonoBehaviour {
         Vector3 cohesion = computeCohesion(agent);
         Vector3 separation = computeSeparation(agent);
         Vector3 vel = agent.GetComponent<Rigidbody>().velocity;
+        //Debug.Log("an agent starts here");
+        //Debug.Log(vel);
 
         vel.x += alignment.x + cohesion.x + separation.x;
         agent.GetComponent<Rigidbody>().velocity = vel;
         vel = agent.GetComponent<Rigidbody>().velocity;
         vel.y += alignment.y + cohesion.y + separation.y;
+
+        vel.Normalize();
         agent.GetComponent<Rigidbody>().velocity = vel;
-        agent.GetComponent<Rigidbody>().velocity.Normalize();
+        //agent.GetComponent<Rigidbody>().velocity.Normalize();
         agent.GetComponent<Rigidbody>().velocity *= 2;
+        //Debug.Log("an agent starts here");
+        //Debug.Log(agent.GetComponent<Rigidbody>().velocity);
+       
+        //Debug.Log(alignment);
+        //Debug.Log(cohesion);
+        //Debug.Log(separation);
     }
     }
