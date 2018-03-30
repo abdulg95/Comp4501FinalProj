@@ -14,31 +14,71 @@ public class RtsMousePointerController : MonoBehaviour {
 
 	}
 
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetMouseButtonDown (0)) {
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-            
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-			RaycastHit hitInfo;
 
-			if (Physics.Raycast (ray, out hitInfo)) {
+            RaycastHit hitInfo;
 
-				Debug.Log ("Mouse is over: " + hitInfo.collider.name);
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+
+                Debug.Log("Mouse is over: " + hitInfo.collider.name);
                 pos = hitInfo.point;
 
                 GameObject hitObject = hitInfo.transform.gameObject;
 
 
-				SelectObject (hitObject);
-			} else {
-				ClearSelection ();
-			}
-		}
+                SelectObject(hitObject);
+            }
+            else
+            {
+                ClearSelection();
+            }
+        }
 
         if (Input.GetKeyDown("b"))
             Instantiate(prefab, selectedObject.transform.position, Quaternion.identity);
-           }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hitInfo;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+
+                Debug.Log("right clicked above: " + hitInfo.collider.name);
+                Debug.Log(selectedObject.name);
+                //pos = hitInfo.point;
+
+                GameObject hitObject = hitInfo.transform.gameObject;
+                if(selectedObject != null)
+                {
+                    if (hitObject.GetComponent<Collider>().name == "Terrain")
+                    {
+                        //SelectedObject.GetComponent<MovementComponent>().currentSpeed = 10f;
+                        selectedObject.GetComponent<AbilityComponent>().UseOn(hitInfo.point);
+                        Debug.Log("Point was: " + hitInfo.point);
+                    }
+                    else
+                    {
+                        selectedObject.GetComponent<AbilityComponent>().UseOn(hitObject);
+                    }
+
+                }
+
+                //SelectObject(hitObject);
+            }
+
+        }
+    }
+            
+                
+
 
     void SelectObject(GameObject obj) {
 		if(selectedObject != null) {

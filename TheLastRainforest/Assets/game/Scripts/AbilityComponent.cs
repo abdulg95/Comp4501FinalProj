@@ -8,7 +8,7 @@ public class AbilityComponent : MonoBehaviour {
     public int cooldown;
     public int range;
     private int timer;
-    public bool targetIsPosition;
+    public bool targetIsPosition = true;
     public Animation anim;
     public string abilityName;
     public GameObject aBuilding; // do this better
@@ -32,12 +32,41 @@ public class AbilityComponent : MonoBehaviour {
         }
     }
 
+    public bool UseOn(GameObject target)
+    {
+
+        if (targetIsPosition)
+        {
+            return UseOn(target.transform.gameObject.transform.position);
+        }
+        else
+        {
+            return false;
+        }
+
+        
+    }
+
+    public GameObject setSpawnTarget()
+    {
+        return GameObject.FindWithTag("ape");
+    }
+
+    public GameObject setBuildTarget()
+    {
+        return GameObject.FindWithTag("wall");
+    }
+
+ 
+
     public bool UseOn(Vector3 target)
     {
 
         switch (abilityName)
         {
             case "build":
+                aBuilding = setBuildTarget();
+                Debug.Log("target is: " + target);
                 aBuilding.GetComponent<HealthComponent>().Spawn(target);
                 break;
             case "enterTreestand":
@@ -49,6 +78,8 @@ public class AbilityComponent : MonoBehaviour {
             case "slam":
                 break;
             case "spawn":
+                aBuilding = setSpawnTarget();
+                aBuilding.GetComponent<HealthComponent>().Spawn(target);
                 break;
             case "explode":
                 break;
