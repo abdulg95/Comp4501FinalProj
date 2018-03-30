@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1c8ebe2931d6c6f4688d9de184a55043
+guid: 2dcfc7cce8a358f43b25725566efdd38
 timeCreated: 1520559514
 licenseType: Free
 ModelImporter:
@@ -10,6 +10,7 @@ ModelImporter:
     400000: //RootNode
     400002: pasted__DrawCall_0057_group
     2100000: pasted__ecf477a5_dds
+    2100002: pasted__DrawCall_0057_groupMat
     2300000: pasted__DrawCall_0057_group
     3300000: pasted__DrawCall_0057_group
     4300000: pasted__DrawCall_0057_group
