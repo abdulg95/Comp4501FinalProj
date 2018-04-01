@@ -61,7 +61,12 @@ public class RtsMousePointerController : MonoBehaviour {
                     if (hitObject.GetComponent<Collider>().name == "Terrain")
                     {
                         //SelectedObject.GetComponent<MovementComponent>().currentSpeed = 10f;
-                        selectedObject.GetComponent<AbilityComponent>().UseOn(hitInfo.point);
+                        if (GameManager.instance.gold > 15)
+                        {
+                            selectedObject.GetComponent<AbilityComponent>().UseOn(hitInfo.point);
+                            GameManager.instance.DeductGold();
+                        }
+                       
                         Debug.Log("Point was: " + hitInfo.point);
                     }
                     else

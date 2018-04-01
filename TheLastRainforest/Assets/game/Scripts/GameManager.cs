@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
     public GameObject prefab;
     private static GameObject[] gos;
-    double gold = 0;
+    public double gold = 0;
 
     //define startup values here e.g hp
 
@@ -42,11 +42,16 @@ public class GameManager : MonoBehaviour {
         return gos;
     }
 
+    public void DeductGold()
+    {
+        gold-=15;
+    }
 
 
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         
     }
 
