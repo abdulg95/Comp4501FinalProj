@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     //declare and initialize gamemanager instance to null
     public static GameManager instance = null;
     public GameObject prefab;
     private static GameObject[] gos;
+    double gold = 0;
 
     //define startup values here e.g hp
 
@@ -30,6 +32,11 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    void UpdateGold()
+    {
+         gold++;
+    }
+
     public  GameObject[] GetGos()
     {
         return gos;
@@ -43,8 +50,14 @@ public class GameManager : MonoBehaviour {
         
     }
 
-	// Update is called once per frame
-	void Update () {
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 100, 20), "Gold: "+gold);
+    }
 
+    // Update is called once per frame
+    void Update () {
+        gold += 0.5;
+       
 	}
 }
