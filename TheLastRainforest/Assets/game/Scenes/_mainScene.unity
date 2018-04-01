@@ -1146,6 +1146,10 @@ Prefab:
       propertyPath: m_Name
       value: gorilla
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1c8ebe2931d6c6f4688d9de184a55043, type: 3}
+      propertyPath: m_TagString
+      value: ape
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c8ebe2931d6c6f4688d9de184a55043, type: 3}
   m_IsPrefabParent: 0
@@ -1775,7 +1779,7 @@ MonoBehaviour:
   range: 0
   targetIsPosition: 0
   anim: {fileID: 0}
-  abilityName: 
+  abilityName: build
   aBuilding: {fileID: 0}
 --- !u!114 &589995292
 MonoBehaviour:
@@ -5375,7 +5379,7 @@ GameObject:
   - component: {fileID: 2029616511}
   m_Layer: 0
   m_Name: mudWall
-  m_TagString: Untagged
+  m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
