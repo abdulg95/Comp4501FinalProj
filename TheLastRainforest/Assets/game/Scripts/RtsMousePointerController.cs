@@ -94,7 +94,7 @@ public class RtsMousePointerController : MonoBehaviour {
 		}
 
 		selectedObject = obj;
-        if (selectedObject.GetComponent<Collider>().name == "Terrain")
+        if (selectedObject.GetComponent<Collider>().name == "Terrain" && (prevSelectedObject != null) &&(prevSelectedObject.GetComponent<MovementComponent>()!= null ))
         {
             prevSelectedObject.GetComponent<MovementComponent>().currentSpeed = 10f;
             prevSelectedObject.GetComponent<MovementComponent>().MoveTo(pos);
