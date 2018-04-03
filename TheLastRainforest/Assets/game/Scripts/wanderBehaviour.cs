@@ -21,58 +21,7 @@ public class wanderBehaviour : MonoBehaviour {
       agents = GameManager.instance.GetGos();
     }
 
-    Vector3 computeAlignment(GameObject agent)
-    {
-        for (int i = 0; i < agents.Length; i++)
-        {
-            if (agent != agents[i])
-            {
-                if (Vector3.Distance(agent.transform.position,agents[i].transform.position) < 500)
-                {
-                    v.x += agents[i].GetComponent<Rigidbody>().velocity.x;
-                    v.z += agents[i].GetComponent<Rigidbody>().velocity.z;
-
-                    neighborCount++;
-                }
-
-            }
-
-        }
-        if (neighborCount == 0)
-            return v;
-
-        v.x /= neighborCount;
-        v.z /= neighborCount;
-        v.Normalize();
-        return v;
-    }
-
-
-    Vector3 computeCohesion(GameObject agent)
-    {
-        for (int i = 0; i < agents.Length; i++)
-        {
-            if (agent != agents[i])
-            {
-                if (Vector3.Distance(agent.transform.position, agents[i].transform.position) < 500)
-                {
-                    v.x += agents[i].transform.position.x;
-                    v.z+= agents[i].transform.position.z;
-                    neighborCount++;
-                }
-
-            }
-
-        }
-        if (neighborCount == 0)
-            return v;
-
-        v.x /= neighborCount;
-        v.z /= neighborCount;
-        v = new Vector3(v.x - agent.transform.position.x, v.z - agent.transform.position.z);
-        v.Normalize();
-        return v;
-    }
+    
 
 
     Vector3 Arrive()
@@ -115,41 +64,48 @@ public class wanderBehaviour : MonoBehaviour {
        
     }
 
-        void FixedUpdate () {
+    Vector3 Seek(Vector3 target)
+    {
+        //Reynolds steering behaviour = desired - velocity
+        //Should be global variables
+        float maxSpeed = 16f;    //fastest possible speed
+        float maxForce = 4f;  //turning speed of the object
+
+        //the direction that you need to go to reach the target
         GameObject agent = this.gameObject;
-        Vector3 steering = new Vector3(0, 0, 0);
-        Vector3 alignment = computeAlignment(agent);
-        Vector3 cohesion = computeCohesion(agent);
+        Vector3 currentVelocity = agent.GetComponent<Rigidbody>().velocity;
+        Vector3 desired = target - agent.transform.position;
+        desired.Normalize();
+        desired *= maxSpeed;
+
+        //steering (reynolds steering)
+        Vector3 steer = desired - currentVelocity;
+        steer.y = 0f; //assuming you want 2D motion on the XZ plane
+
+        //limit the steering
+        if (steer.sqrMagnitude > maxForce * maxForce)
+        {
+            steer.Normalize();
+            steer *= maxForce;
+        }
+
+        return steer;
+    }
+
+    void FixedUpdate () {
+        GameObject agent = this.gameObject;
+        Vector3 force = new Vector3(0, 0, 0);
         if(agent.name == "bruteLeader")
         {
-            steering = computeSteering(agent);
+            force = Seek(target.transform.position);
         }
-        //Vector3 vel = agent.GetComponent<Rigidbody>().velocity;
-        //Vector3 force = alignment + cohesion  + (separation*10)+(steering*50);
-        // Vector3 force = computeSteering(agent);
-        Vector3 force = Arrive();
+       
         force.Normalize();
-        agent.GetComponent<Rigidbody>().AddForce(force);
-        agent.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(agent.GetComponent<Rigidbody>().velocity, max_velocity);
-        //transform.rotation = Quaternion.LookRotation(agent.GetComponent<Rigidbody>().velocity);//change the rotation
-
-
-        //Debug.Log(vel);
-
-        /* vel.x += alignment.x + cohesion.x + separation.x;
-         agent.GetComponent<Rigidbody>().velocity = vel;
-         vel = agent.GetComponent<Rigidbody>().velocity;
-         vel.z += alignment.z + cohesion.z + separation.z;
-
-         vel.Normalize();
-         agent.GetComponent<Rigidbody>().velocity = vel;*/
-        //agent.GetComponent<Rigidbody>().velocity.Normalize();
-        //agent.GetComponent<Rigidbody>().velocity *= 2;
-        //Debug.Log("an agent starts here");
-        //Debug.Log(agent.GetComponent<Rigidbody>().velocity);
-
-        //Debug.Log(alignment);
-        //Debug.Log(cohesion);
-        //Debug.Log(separation);
+        agent.GetComponent<Rigidbody>().velocity += force*Time.fixedDeltaTime;
+        transform.rotation = Quaternion.LookRotation(agent.GetComponent<Rigidbody>().velocity);//change the rotation
+        
+        Debug.Log(agent.transform.position);
+        Debug.Log(target.transform.position);
+        Debug.Log("steer" + force);
     }
 }

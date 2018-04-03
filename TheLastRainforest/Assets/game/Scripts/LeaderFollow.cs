@@ -10,9 +10,9 @@ public class LeaderFollow : MonoBehaviour {
     public GameObject leader;
     GameObject agent;
     float slowingRadius = 0.5f;
-    int max_velocity = 15;
-    int max_force = 10;
-    int LEADER_BEHIND_DIST = 20;
+    float max_velocity = 16f;
+    float max_force = 4f;
+    int LEADER_BEHIND_DIST = 5;
     Vector3 steering = Vector3.zero; // the null vector, meaning "zero force magnitude"
     GameObject[] agents;
 
@@ -64,14 +64,14 @@ public class LeaderFollow : MonoBehaviour {
         Vector3 tv = leader.GetComponent<Rigidbody>().velocity;
         
         // Calculate the behind point
-        tv.Scale(new Vector3(-1,-1,-1));
+        tv*=-1;
         tv.Normalize();
-        tv.Scale(new Vector3(LEADER_BEHIND_DIST, LEADER_BEHIND_DIST, LEADER_BEHIND_DIST));
+        tv*=LEADER_BEHIND_DIST;
         Vector3 behind = leader.transform.position + tv;
 
         // Creates a force to arrive at the behind point
         Vector3 force = Arrive(behind);
-        force += computeSeparation(agent);
+       // force += computeSeparation(agent);
  
         return force;
     }
@@ -101,17 +101,23 @@ public class LeaderFollow : MonoBehaviour {
 
         // Set the steering based on this
         Vector3 steering = desired_velocity - v;
+        steering.y = 0;
+        if (steering.sqrMagnitude > max_force * max_force)
+        {
+            steering.Normalize();
+            steering *= max_force;
+        }
+
         return steering;
     }
 
     void FixedUpdate()
     {
         steering = steering + followLeader();
-        steering = Vector3.ClampMagnitude(steering, max_force);
-        steering = steering / agent.GetComponent<Rigidbody>().mass;
-        v = v + steering;
-        agent.GetComponent<Rigidbody>().velocity += v* Time.fixedDeltaTime;
-        agent.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(agent.GetComponent<Rigidbody>().velocity, max_velocity); 
+        steering.Normalize();
+        agent.GetComponent<Rigidbody>().velocity += steering* Time.fixedDeltaTime;
+        transform.rotation = Quaternion.LookRotation(agent.GetComponent<Rigidbody>().velocity);
+        //agent.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(agent.GetComponent<Rigidbody>().velocity, max_velocity); 
     }
 
     // Update is called once per frame
