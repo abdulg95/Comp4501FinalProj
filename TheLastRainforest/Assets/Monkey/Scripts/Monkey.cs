@@ -26,6 +26,7 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            transform.Translate(0f, 0f, Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -39,6 +40,7 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            transform.Rotate(0f, -Time.deltaTime * 20, 0f);
         }
         if (Input.GetKey(KeyCode.D))
         {
@@ -52,6 +54,7 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            transform.Rotate(0f, Time.deltaTime * 20, 0f);
         }
         if ((Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.Keypad5)))
         {

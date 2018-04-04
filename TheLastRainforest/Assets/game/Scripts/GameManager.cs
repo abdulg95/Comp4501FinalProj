@@ -20,10 +20,15 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        gos = new GameObject[10];
+        gos = new GameObject[5];
         for (int i = 0; i < gos.Length; i++)
         {
-            gos[i] = Instantiate(prefab, new Vector3(i * 2.0F +330, 0, 136), Quaternion.identity);
+            Vector3 position = new Vector3(
+            10 * Random.value + prefab.transform.position.x,
+            prefab.transform.position.y,
+            10 * Random.value + prefab.transform.position.z
+        );
+            gos[i] = Instantiate(prefab, position, Quaternion.identity);
             //Debug.Log("cloning" + "" + prefab.name + "object with velocity: "+ gos[i].GetComponent<Rigidbody>().velocity);
 
 
