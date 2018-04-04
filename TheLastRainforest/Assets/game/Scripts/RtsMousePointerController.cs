@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEngine.EventSystems;
+using UnityEngine;
 using System.Collections;
 
 public class RtsMousePointerController : MonoBehaviour {
@@ -24,21 +25,30 @@ public class RtsMousePointerController : MonoBehaviour {
 
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo))
+            if (EventSystem.current.IsPointerOverGameObject())
             {
+                Debug.Log("Clicked on the UI");
 
-                Debug.Log("Mouse is over: " + hitInfo.collider.name);
-                pos = hitInfo.point;
-
-                GameObject hitObject = hitInfo.transform.gameObject;
-
-
-                SelectObject(hitObject);
             }
             else
             {
-                ClearSelection();
+                if (Physics.Raycast(ray, out hitInfo))
+                {
+
+                    Debug.Log("Mouse is over: " + hitInfo.collider.name);
+                    pos = hitInfo.point;
+
+                    GameObject hitObject = hitInfo.transform.gameObject;
+
+
+                    SelectObject(hitObject);
+                }
+                else
+                {
+                    ClearSelection();
+                }
             }
+            
         }
 
         if (Input.GetKeyDown("b"))

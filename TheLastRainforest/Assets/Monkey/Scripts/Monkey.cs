@@ -4,6 +4,12 @@ using System.Collections;
 public class Monkey : MonoBehaviour {
     private IEnumerator coroutine;
     Animator monkey;
+    float Speed = 0; //Don't touch this 
+    float MaxSpeed = 10;//This is the maximum speed that the object will achieve 
+    float Acceleration = 1;//How fast will object reach a maximum speed 
+    float Deceleration = 10;//How fast will object reach a speed of 0
+    float lookSpeed = 10;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +20,9 @@ public class Monkey : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if ((Input.GetKey(KeyCode.W)) || (Input.GetKey("down")))
+       
+
+        if ((Input.GetKey(KeyCode.W)) && (Speed < MaxSpeed))
         {
             monkey.SetBool("walk", true);
             monkey.SetBool("left", false);
@@ -26,6 +34,26 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            if (Speed < MaxSpeed)
+            {
+                Speed = Speed + Acceleration * Time.deltaTime;
+            }
+
+            transform.Translate(0f, 0f, Speed * Time.deltaTime);
+
+        }
+        else if((Input.GetKey(KeyCode.W)) && (Speed >= MaxSpeed))
+        {
+            monkey.SetBool("run", true);
+            monkey.SetBool("walk", false);
+            monkey.SetBool("left", false);
+            monkey.SetBool("right", false);
+            monkey.SetBool("runleft", false);
+            monkey.SetBool("runright", false);
+            monkey.SetBool("hop", false);
+            monkey.SetBool("hopleft", false);
+            monkey.SetBool("hopright", false);
+            transform.Translate(0f, 0f, Speed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -39,6 +67,7 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            transform.Rotate(0f, 10*-lookSpeed * Time.deltaTime, 0f );
         }
         if (Input.GetKey(KeyCode.D))
         {
@@ -52,8 +81,9 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            transform.Rotate(0f, 10*lookSpeed * Time.deltaTime, 0f);
         }
-        if ((Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.Keypad5)))
+        if (Input.anyKey == false)
         {
             monkey.SetBool("idle", true);
             monkey.SetBool("walk", false);
@@ -65,6 +95,7 @@ public class Monkey : MonoBehaviour {
             monkey.SetBool("hop", false);
             monkey.SetBool("hopleft", false);
             monkey.SetBool("hopright", false);
+            Speed = 0;
         }
         if (Input.GetKey("up"))
         {
