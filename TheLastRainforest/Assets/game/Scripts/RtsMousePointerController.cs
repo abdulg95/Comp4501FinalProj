@@ -98,6 +98,8 @@ public class RtsMousePointerController : MonoBehaviour {
         {
             prevSelectedObject.GetComponent<MovementComponent>().currentSpeed = 10f;
             prevSelectedObject.GetComponent<MovementComponent>().MoveTo(pos);
+            prevSelectedObject.GetComponent<MovementComponent>().ClearLeader();
+            Debug.Log("attempted to move to: " + pos);
         }
 	}
 

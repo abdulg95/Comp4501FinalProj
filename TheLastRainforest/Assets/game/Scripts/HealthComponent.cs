@@ -43,7 +43,9 @@ public class HealthComponent : MonoBehaviour {
     public void Spawn(Vector3 input)
     {
         GameObject newUnit = Instantiate(prefab);
+        input.y = 0.1f;
         newUnit.transform.position = input;
+       
     }
 
     public bool IsDead()

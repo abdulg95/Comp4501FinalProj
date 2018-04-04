@@ -13,24 +13,32 @@ public class UiSelection : MonoBehaviour {
     public Button gorbtn;
     public Button mudbtn;
     private bool mnkselect, gorselect, mudselect;
+    //public GameObject gameManager;
+    //private GameManager gm;
 
     
     public void MonkeySelection()
     {
+        GameManager.instance.setSpawnerTarget(GameObject.FindWithTag("shooter"));
         mnkbtn.Select();
         mnkselect = true;
+        
     }
 
     public void GorillaSelection()
     {
+        GameManager.instance.setSpawnerTarget(GameObject.FindWithTag("ape"));
         gorbtn.Select();
         gorselect = true;
+       // GameManager.instance.setSpawnerTarget(GameObject.FindWithTag("ape"));
     }
 
     public void MudSelection()
     {
+        GameManager.instance.setBuilderTarget(GameObject.FindWithTag("wall"));
         mudbtn.Select();
         mudselect = true;
+        //GameManager.instance.setBuilderTarget(GameObject.FindWithTag("wall"));
     }
 
     //Do this when the selectable UI object is selected.
@@ -43,6 +51,9 @@ public class UiSelection : MonoBehaviour {
         mnkselect = false;
         gorselect = false;
         mudselect = false;
+        //gameManager.GetComponent<GameManager>();
+
+
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -50,7 +61,8 @@ public class UiSelection : MonoBehaviour {
         Debug.Log(this.gameObject.name + " was selected");
         if(mnkselect == true)
         {
-            //spawnmonkeymode code here
+            //set builder target
+            
             mudselect = false;
             gorselect = false;
         }
@@ -58,6 +70,7 @@ public class UiSelection : MonoBehaviour {
         {
             //spawngorillamode code here
             //deduct gold in spawn gorilla code
+            
             mnkselect = false;
             mudselect = false;
 
@@ -65,6 +78,7 @@ public class UiSelection : MonoBehaviour {
         if (mudselect == true)
         {
             //switch back to normal ability here
+           
             mnkselect = false;
             gorselect = false;
 

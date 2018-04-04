@@ -104,8 +104,8 @@ public class wanderBehaviour : MonoBehaviour {
         agent.GetComponent<Rigidbody>().velocity += force*Time.fixedDeltaTime;
         transform.rotation = Quaternion.LookRotation(agent.GetComponent<Rigidbody>().velocity);//change the rotation
         
-        Debug.Log(agent.transform.position);
-        Debug.Log(target.transform.position);
-        Debug.Log("steer" + force);
+        //Debug.Log(agent.transform.position);
+        //Debug.Log(target.transform.position);
+        //Debug.Log("steer" + force);
     }
 }

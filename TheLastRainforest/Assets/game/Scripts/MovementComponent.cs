@@ -8,11 +8,14 @@ public class MovementComponent : MonoBehaviour {
     public float currentSpeed;
     public Vector3 target ;
     public int arrivalThreshold = 2;
+    public int followDistance = 1;
     Rigidbody rb;
     bool needsToMove = false;
     Vector3 empty = new Vector3(0, 0, 0);
     Vector3 initial_pos;
     Vector3 final_pos;
+    public GameObject leader;
+    bool follow = false;
 
 
 
@@ -45,25 +48,47 @@ public class MovementComponent : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(needsToMove)
-        {
-            Vector3 distance = target - transform.position;
-            Vector3 steering;
-            Vector3 temp;
 
-            if (Vector3.Magnitude(distance) > arrivalThreshold)
+        int offset=0;
+        Vector3 distance;
+
+        if (follow)
+        {
+            target = leader.transform.position;
+            target.y = 0;//sterilize, prevent moving on highground
+            offset = 1;
+            distance = target - transform.position;
+            if (!needsToMove && Vector3.Magnitude(distance) > followDistance)
+            {
+                needsToMove = true;
+            }
+        }
+        distance = target - transform.position;
+        
+        Vector3 steering;
+        Vector3 temp;
+        if (needsToMove)
+        {
+
+
+            if (Vector3.Magnitude(distance) - offset > arrivalThreshold)
             {
                 steering = Vector3.Normalize(distance) * maxSpeed - rb.velocity;
                 //while (Vector3.Magnitude(steering) < 1 * Vector3.Magnitude(rb.velocity))
                 //{
                 //    steering *= 1;
                 //}
-                Debug.Log(rb.velocity);
+                //Debug.Log(rb.velocity);
             }
             else
             {
                 steering = Vector3.Normalize(distance) * maxSpeed * (Vector3.Magnitude(distance) / arrivalThreshold) - rb.velocity;
-                Debug.Log("arriving now");
+                //Debug.Log("arriving now");
+            }
+
+            if (follow)
+            {
+                steering += computeSeparation(gameObject);
             }
             steering.y = 0;//sterilize
             rb.AddForce(steering);
@@ -73,7 +98,7 @@ public class MovementComponent : MonoBehaviour {
                 temp.y = 0; //sterilize
                 gameObject.transform.forward = temp;
             }
-            if (steering == empty)
+            if (Vector3.Magnitude(steering) - offset == 0)
             {
                 needsToMove = false;
             }
@@ -94,13 +119,71 @@ public class MovementComponent : MonoBehaviour {
       
     }
 
+    public void MoveTo(GameObject t)
+    {
+        if(leader!= null)
+        {
+            leader.GetComponent<LeaderComponent>().followers.Remove(gameObject);
+        }
+        leader = t;
+        leader.GetComponent<LeaderComponent>().followers.Add(gameObject);
+        follow = true;
+        target = t.transform.position;
+        target.y = 0;//sterilize, prevent moving on highground
+        needsToMove = true;
+
+    }
+
+    public void ClearLeader()
+    {
+        leader.GetComponent<LeaderComponent>().followers.Remove(gameObject);
+        leader = null;
+        follow = false;
+    }
+
     public void MoveToSelection(Vector3 t)
     {
         // Set start and end positions for the linearly interpolated motion
         initial_pos = this.transform.position;
         final_pos = t;
-        Debug.Log("moving");
+        //Debug.Log("moving");
         // Move saucer with ease-in/ease-out function
         StartCoroutine("MoveWithEase");
+    }
+    Vector3 computeSeparation(GameObject agent)
+    {
+        int max_separation = 10;
+        Vector3 v = agent.GetComponent<Rigidbody>().velocity;
+        List<GameObject> agents = leader.GetComponent<LeaderComponent>().followers;
+        foreach(GameObject obj in agents)
+        {
+            if (agent != obj)
+            {
+                if (Vector3.Distance(agent.transform.position, obj.transform.position) <= max_separation)
+                {
+                    v.x += obj.transform.position.x - agent.transform.position.x;
+                    v.z += obj.transform.position.z - agent.transform.position.z;
+
+                    //neighborCount++;
+                }
+
+            }
+
+        }
+        if (agents.Count == 1)
+        {
+            v.Normalize();
+            v.Scale(new Vector3(max_separation, max_separation, max_separation));
+            return v;
+        }
+
+
+        v.x /= (agents.Count - 1);
+        v.z /= (agents.Count -1);
+        v = new Vector3(v.x - agent.transform.position.x, v.z - agent.transform.position.z);
+        v.Normalize();
+        v.x *= -max_separation;
+        v.z *= -max_separation;
+        return v;
     }
 }

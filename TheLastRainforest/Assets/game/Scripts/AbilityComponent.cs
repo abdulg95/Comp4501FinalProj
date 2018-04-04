@@ -47,14 +47,14 @@ public class AbilityComponent : MonoBehaviour {
         
     }
 
-    public GameObject setSpawnTarget()
+    public GameObject SetSpawnTarget()
     {
-        return GameObject.FindWithTag("ape");
+        return GameManager.instance.spawnerTarget;
     }
 
-    public GameObject setBuildTarget()
+    public GameObject SetBuildTarget()
     {
-        return GameObject.FindWithTag("wall");
+        return GameManager.instance.builderTarget;
     }
 
  
@@ -65,7 +65,7 @@ public class AbilityComponent : MonoBehaviour {
         switch (abilityName)
         {
             case "build":
-                aBuilding = setBuildTarget();
+                aBuilding = SetBuildTarget();
                 Debug.Log("target is: " + target);
                 aBuilding.GetComponent<HealthComponent>().Spawn(target);
                 break;
@@ -78,7 +78,7 @@ public class AbilityComponent : MonoBehaviour {
             case "slam":
                 break;
             case "spawn":
-                aBuilding = setSpawnTarget();
+                aBuilding = SetSpawnTarget();
                 aBuilding.GetComponent<HealthComponent>().Spawn(target);
                 break;
             case "explode":
