@@ -14,6 +14,6 @@ public class LeaderComponent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        followers.RemoveAll(item => item == null);
 	}
 }

@@ -46,6 +46,23 @@ public class MovementComponent : MonoBehaviour {
     }
     */
 
+    GameObject findClosestBuldozer()
+    {
+       GameObject result = null;
+        float dist = 9000f;
+
+        foreach (GameObject temp in GameManager.instance.Leaders)
+        {
+            if (dist >= DistanceTo(temp))
+            {
+                result = temp;
+                dist = DistanceTo(temp);
+            }
+
+        }
+        return result;
+    }
+
     // Update is called once per frame
     void Update () {
 
@@ -54,13 +71,21 @@ public class MovementComponent : MonoBehaviour {
 
         if (follow)
         {
-            target = leader.transform.position;
-            target.y = 0;//sterilize, prevent moving on highground
-            offset = 1;
-            distance = target - transform.position;
-            if (!needsToMove && Vector3.Magnitude(distance) > followDistance)
+            if(target == null)//leader has died
             {
-                needsToMove = true;
+                leader = findClosestBuldozer();
+            }
+            if (leader != null)
+            {
+                target = leader.transform.position;
+                target -= leader.transform.forward.normalized;
+                target.y = 0;//sterilize, prevent moving on highground
+                offset = 1;
+                distance = target - transform.position;
+                if (!needsToMove && Vector3.Magnitude(distance) > followDistance)
+                {
+                    needsToMove = true;
+                }
             }
         }
         distance = target - transform.position;
@@ -102,8 +127,8 @@ public class MovementComponent : MonoBehaviour {
             {
                 needsToMove = false;
             }
-            Debug.Log("force added: " + steering + " " + Vector3.Normalize(distance));
-            Debug.Log("headed from: " + gameObject.transform.position + " headed to: " + target);
+            //Debug.Log("force added: " + steering + " " + Vector3.Normalize(distance));
+            //Debug.Log("headed from: " + gameObject.transform.position + " headed to: " + target);
         }
 		
 	}
@@ -113,7 +138,7 @@ public class MovementComponent : MonoBehaviour {
        
         target = t;
         target.y = 0;//sterilize, prevent moving on highground
-        Debug.Log("moving to: " + t);
+       // Debug.Log("moving to: " + t);
         needsToMove = true;
 
       
@@ -185,5 +210,9 @@ public class MovementComponent : MonoBehaviour {
         v.x *= -max_separation;
         v.z *= -max_separation;
         return v;
+    }
+    public float DistanceTo(GameObject target)
+    {
+        return (Vector3.Distance(target.transform.position, gameObject.transform.position));
     }
 }

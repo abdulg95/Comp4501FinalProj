@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
     public GameObject builderTarget;
     public GameObject spawnerTarget;
 
+    public List<GameObject> Leaders;
+
     public void setBuilderTarget(GameObject target)
     {
         builderTarget = target;
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour {
     void spawnBaddies()
     {
         leader = Instantiate(leaderPrefab, new Vector3(332.0f, 0.1f, 139), Quaternion.identity);
+        Leaders.Add(leader);
         gos = new GameObject[10];
         for (int i = 0; i < gos.Length; i++)
         {
@@ -92,6 +95,6 @@ public class GameManager : MonoBehaviour {
             spawnBaddies();
             spawnTimer = 0;
         }
-       
+        Leaders.RemoveAll(item => item == null);
 	}
 }

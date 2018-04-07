@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43996534, g: 0.4884454, b: 0.5686422, a: 1}
+  m_IndirectSpecularColor: {r: 0.4399656, g: 0.48844558, b: 0.568643, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 442286, guid: 0dbfcfcd58461c64290663b110fdcc4e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 330.92
+      value: 46.1
       objectReference: {fileID: 0}
     - target: {fileID: 442286, guid: 0dbfcfcd58461c64290663b110fdcc4e, type: 2}
       propertyPath: m_LocalPosition.y
@@ -325,7 +325,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 442286, guid: 0dbfcfcd58461c64290663b110fdcc4e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 136.28
+      value: 121
       objectReference: {fileID: 0}
     - target: {fileID: 442286, guid: 0dbfcfcd58461c64290663b110fdcc4e, type: 2}
       propertyPath: m_LocalRotation.x
@@ -626,6 +626,10 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 1.6962056
       objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
   m_IsPrefabParent: 0
@@ -699,6 +703,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   range: 0
+  cooldown: 0
+  projectile: {fileID: 0}
+  isEnemy: 1
   target: {fileID: 0}
 --- !u!136 &102907943
 CapsuleCollider:
@@ -986,8 +993,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4dbd4d56717ff4b93a74e1563f6533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  range: 0
+  damage: 50
+  range: 4
+  cooldown: 1
+  projectile: {fileID: 0}
+  isEnemy: 1
   target: {fileID: 0}
 --- !u!4 &206120260 stripped
 Transform:
@@ -1005,7 +1015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
-  range: 0
+  range: 4
   targetIsPosition: 0
   anim: {fileID: 0}
   abilityName: 
@@ -1042,6 +1052,18 @@ MonoBehaviour:
   currentHealth: 222
   regenerationDelay: 2222
   prefab: {fileID: 206120258}
+--- !u!135 &206120264
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 206120258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &206120265
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1200,8 +1222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4dbd4d56717ff4b93a74e1563f6533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  range: 0
+  damage: 11
+  range: 12
+  cooldown: 2
+  projectile: {fileID: 1396898192}
+  isEnemy: 0
   target: {fileID: 0}
 --- !u!114 &352222363
 MonoBehaviour:
@@ -1252,6 +1277,18 @@ MonoBehaviour:
   arrivalThreshold: 10
   followDistance: 1
   leader: {fileID: 0}
+--- !u!135 &352222366
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352222361}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 240
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &352222368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1366,6 +1403,18 @@ MonoBehaviour:
   arrivalThreshold: 10
   followDistance: 1
   leader: {fileID: 0}
+--- !u!135 &363981966
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 363981964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 8
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &363981967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,6 +1474,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 2, z: 3}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &363981971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 363981964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4dbd4d56717ff4b93a74e1563f6533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 12
+  range: 3
+  cooldown: 2
+  projectile: {fileID: 0}
+  isEnemy: 0
+  target: {fileID: 0}
 --- !u!1 &374582152
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,6 +2404,35 @@ GameObject:
   m_PrefabParentObject: {fileID: 1520059560426070, guid: ee41b25afce38ad408eb6a51a6bf9382,
     type: 2}
   m_PrefabInternal: {fileID: 848336420}
+--- !u!114 &703071244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 703071243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4dbd4d56717ff4b93a74e1563f6533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  range: 2
+  cooldown: 1
+  projectile: {fileID: 0}
+  isEnemy: 1
+  target: {fileID: 0}
+--- !u!135 &703071245
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 703071243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &703071248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2718,6 +2813,10 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1520059560426070, guid: ee41b25afce38ad408eb6a51a6bf9382, type: 2}
+      propertyPath: m_TagString
+      value: enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee41b25afce38ad408eb6a51a6bf9382, type: 2}
@@ -3106,7 +3205,7 @@ GameObject:
   - component: {fileID: 1105048842}
   m_Layer: 0
   m_Name: enemyUnit
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4946,6 +5045,10 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0.00000015092203
       objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d82c52c47af67124cb6c00993ee36f84, type: 3}
   m_IsPrefabParent: 0
@@ -4987,6 +5090,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   range: 0
+  cooldown: 0
+  projectile: {fileID: 0}
+  isEnemy: 1
   target: {fileID: 0}
 --- !u!114 &1393982297
 MonoBehaviour:
@@ -5033,9 +5139,11 @@ GameObject:
   - component: {fileID: 1396898196}
   - component: {fileID: 1396898195}
   - component: {fileID: 1396898194}
+  - component: {fileID: 1396898200}
+  - component: {fileID: 1396898199}
   m_Layer: 0
   m_Name: coconut
-  m_TagString: Untagged
+  m_TagString: projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5067,8 +5175,8 @@ MonoBehaviour:
   maxSpeed: 0
   currentSpeed: 0
   target: {x: 0, y: 0, z: 0}
-  arrivalThreshold: 10
-  followDistance: 1
+  arrivalThreshold: 1
+  followDistance: 0
   leader: {fileID: 0}
 --- !u!114 &1396898195
 MonoBehaviour:
@@ -5131,7 +5239,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1396898198
 MeshFilter:
@@ -5140,6 +5248,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1396898192}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1396898199
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1396898192}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
+--- !u!114 &1396898200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1396898192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4dbd4d56717ff4b93a74e1563f6533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 11
+  range: 1
+  cooldown: 50
+  projectile: {fileID: 0}
+  isEnemy: 0
+  target: {fileID: 0}
 --- !u!1001 &1413134714
 Prefab:
   m_ObjectHideFlags: 0
@@ -5231,6 +5371,21 @@ MonoBehaviour:
   anim: {fileID: 0}
   abilityName: build
   aBuilding: {fileID: 0}
+--- !u!114 &1487514582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1487514575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e4642c4b314a54795c0f2b9f71b8be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maximumHealth: 6
+  currentHealth: 6
+  regenerationDelay: 6
+  prefab: {fileID: 0}
 --- !u!1 &1533792814
 GameObject:
   m_ObjectHideFlags: 0
@@ -5513,7 +5668,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400012, guid: cdaad181e818e934a800f6b5abc07e1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 108.1
+      value: 105.3
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: cdaad181e818e934a800f6b5abc07e1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5554,6 +5709,10 @@ Prefab:
     - target: {fileID: 400012, guid: cdaad181e818e934a800f6b5abc07e1d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: cdaad181e818e934a800f6b5abc07e1d, type: 3}
+      propertyPath: m_TagString
+      value: enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cdaad181e818e934a800f6b5abc07e1d, type: 3}

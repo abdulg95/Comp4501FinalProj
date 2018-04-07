@@ -7,6 +7,8 @@ TagManager:
   - ape
   - wall
   - shooter
+  - enemy
+  - projectile
   layers:
   - Default
   - TransparentFX

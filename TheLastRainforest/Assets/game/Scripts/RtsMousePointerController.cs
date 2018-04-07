@@ -40,8 +40,11 @@ public class RtsMousePointerController : MonoBehaviour {
 
                     GameObject hitObject = hitInfo.transform.gameObject;
 
-
-                    SelectObject(hitObject);
+                    if (!hitObject.CompareTag("enemy"))
+                    {
+                        SelectObject(hitObject);
+                    }
+                    
                 }
                 else
                 {
