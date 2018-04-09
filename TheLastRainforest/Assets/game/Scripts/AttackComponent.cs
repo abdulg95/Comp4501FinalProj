@@ -34,7 +34,7 @@ public class AttackComponent : MonoBehaviour {
         }
         if(target == null)
         {
-            if (CompareTag("Projectile"))
+            if (CompareTag("projectile"))
             {
                 Destroy(gameObject);
             }

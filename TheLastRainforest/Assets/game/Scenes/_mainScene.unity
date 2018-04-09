@@ -2018,9 +2018,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e4642c4b314a54795c0f2b9f71b8be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumHealth: 666
-  currentHealth: 666
-  regenerationDelay: 11
+  maximumHealth: 66
+  currentHealth: 66
+  regenerationDelay: 111
   prefab: {fileID: 0}
 --- !u!136 &521167737
 CapsuleCollider:
@@ -2031,7 +2031,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.5220143
+  m_Radius: 0.5
   m_Height: 3.0440285
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -5430,7 +5430,7 @@ MonoBehaviour:
   cooldown: 50
   projectile: {fileID: 0}
   isEnemy: 0
-  target: {fileID: 0}
+  target: {fileID: 1396898192}
 --- !u!1001 &1413134714
 Prefab:
   m_ObjectHideFlags: 0
