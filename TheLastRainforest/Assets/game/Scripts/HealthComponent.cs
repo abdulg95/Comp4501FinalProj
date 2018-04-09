@@ -26,6 +26,7 @@ public class HealthComponent : MonoBehaviour {
             if (CompareTag("goal"))
             {
                 //code here to start the game over sequence.
+                GameManager.instance.gameOver = true;
             }
             Destroy(gameObject);
         }

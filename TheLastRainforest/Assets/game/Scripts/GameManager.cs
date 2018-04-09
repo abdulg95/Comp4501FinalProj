@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public double gold = 0;
     public int spawnTimer=0;
     public int dificultyModifier=1;
+    public bool gameOver = false;
 
     //declare targets for the builder and the spawner tree.
     public GameObject builderTarget;
@@ -81,12 +82,16 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
+        gameOver = false;
     }
 
     void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 100, 20), "Gold: "+gold);
+        if (gameOver)
+        {
+            GUI.Label(new Rect(500, 500, 200, 200), "GAMEOVER");
+        }
     }
 
     // Update is called once per frame
@@ -105,5 +110,8 @@ public class GameManager : MonoBehaviour {
             dificultyModifier++;
         }
         Leaders.RemoveAll(item => item == null);
+        if (gameOver) {
+            Application.Quit();
+        }
 	}
 }
