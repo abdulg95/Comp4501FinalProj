@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour {
     //declare and initialize gamemanager instance to null
@@ -43,12 +43,17 @@ public class GameManager : MonoBehaviour {
     }
     void spawnBaddies()
     {
-        leader = Instantiate(leaderPrefab, new Vector3(332.0f, 0.1f, 139), Quaternion.identity);
+        leader = Instantiate(leaderPrefab);
+        int rand = Random.Range(0, 130);
+        leader.GetComponent<NavMeshAgent>().Warp(new Vector3(430.0f, 0.0f, 140 + rand));
+        //Debug.Log("leader position is: " + leader.transform.position);
+        leader.GetComponent<NavMeshAgent>().destination = GameObject.FindGameObjectWithTag("goal").transform.position;
+        //Debug.Log("path status: " + leader.GetComponent<NavMeshAgent>().pathStatus);
         Leaders.Add(leader);
         gos = new GameObject[10];
         for (int i = 0; i < gos.Length; i++)
         {
-            gos[i] = Instantiate(prefab, new Vector3(i * 2.0F + 330, 0.1f, 136), Quaternion.identity);
+            gos[i] = Instantiate(prefab, new Vector3(i * 2F + 430, 0.1f, 136+ rand), Quaternion.identity);
             gos[i].GetComponent<MovementComponent>().MoveTo(leader);
             //Debug.Log("cloning" + "" + prefab.name + "object with velocity: "+ gos[i].GetComponent<Rigidbody>().velocity);
 
@@ -91,9 +96,13 @@ public class GameManager : MonoBehaviour {
         spawnTimer++;
         if(spawnTimer == 1000)
         {
-
-            spawnBaddies();
+            for(int i = 0; i < dificultyModifier; i++)
+            {
+                spawnBaddies();
+            }
+            
             spawnTimer = 0;
+            dificultyModifier++;
         }
         Leaders.RemoveAll(item => item == null);
 	}

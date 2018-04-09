@@ -9,6 +9,7 @@ TagManager:
   - shooter
   - enemy
   - projectile
+  - goal
   layers:
   - Default
   - TransparentFX

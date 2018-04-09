@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MovementComponent : MonoBehaviour {
 
@@ -67,70 +68,81 @@ public class MovementComponent : MonoBehaviour {
     void Update () {
 
         int offset=0;
+        NavMeshAgent agent;
         Vector3 distance;
-
-        if (follow)
+        if (GetComponent<NavMeshAgent>() != null)
         {
-            if(target == null)//leader has died
-            {
-                leader = findClosestBuldozer();
-            }
-            if (leader != null)
-            {
-                target = leader.transform.position;
-                target -= leader.transform.forward.normalized;
-                target.y = 0;//sterilize, prevent moving on highground
-                offset = 1;
-                distance = target - transform.position;
-                if (!needsToMove && Vector3.Magnitude(distance) > followDistance)
-                {
-                    needsToMove = true;
-                }
-            }
+            
+            agent = GetComponent<NavMeshAgent>();
+            //Debug.Log("end of the path is: " + agent.pathEndPosition);
+            //agent.destination = target;
         }
-        distance = target - transform.position;
-        
-        Vector3 steering;
-        Vector3 temp;
-        if (needsToMove)
+        else
         {
 
-
-            if (Vector3.Magnitude(distance) - offset > arrivalThreshold)
-            {
-                steering = Vector3.Normalize(distance) * maxSpeed - rb.velocity;
-                //while (Vector3.Magnitude(steering) < 1 * Vector3.Magnitude(rb.velocity))
-                //{
-                //    steering *= 1;
-                //}
-                //Debug.Log(rb.velocity);
-            }
-            else
-            {
-                steering = Vector3.Normalize(distance) * maxSpeed * (Vector3.Magnitude(distance) / arrivalThreshold) - rb.velocity;
-                //Debug.Log("arriving now");
-            }
 
             if (follow)
             {
-                steering += computeSeparation(gameObject);
+                if (target == null)//leader has died
+                {
+                    leader = findClosestBuldozer();
+                }
+                if (leader != null)
+                {
+                    target = leader.transform.position;
+                    target -= leader.transform.forward.normalized;
+                    target.y = 0;//sterilize, prevent moving on highground
+                    offset = 1;
+                    distance = target - transform.position;
+                    if (!needsToMove && Vector3.Magnitude(distance) > followDistance)
+                    {
+                        needsToMove = true;
+                    }
+                }
             }
-            steering.y = 0;//sterilize
-            rb.AddForce(steering);
-            if (Vector3.Magnitude(rb.velocity) > 1)
+            distance = target - transform.position;
+
+            Vector3 steering;
+            Vector3 temp;
+            if (needsToMove)
             {
-                temp = Vector3.Normalize(rb.velocity);
-                temp.y = 0; //sterilize
-                gameObject.transform.forward = temp;
+
+
+                if (Vector3.Magnitude(distance) - offset > arrivalThreshold)
+                {
+                    steering = Vector3.Normalize(distance) * maxSpeed - rb.velocity;
+                    //while (Vector3.Magnitude(steering) < 1 * Vector3.Magnitude(rb.velocity))
+                    //{
+                    //    steering *= 1;
+                    //}
+                    //Debug.Log(rb.velocity);
+                }
+                else
+                {
+                    steering = Vector3.Normalize(distance) * maxSpeed * (Vector3.Magnitude(distance) / arrivalThreshold) - rb.velocity;
+                    //Debug.Log("arriving now");
+                }
+
+                if (follow)
+                {
+                    steering += computeSeparation(gameObject);
+                }
+                steering.y = 0;//sterilize
+                rb.AddForce(steering);
+                if (Vector3.Magnitude(rb.velocity) > 1)
+                {
+                    temp = Vector3.Normalize(rb.velocity);
+                    temp.y = 0; //sterilize
+                    gameObject.transform.forward = temp;
+                }
+                if (Vector3.Magnitude(steering) - offset == 0)
+                {
+                    needsToMove = false;
+                }
+                //Debug.Log("force added: " + steering + " " + Vector3.Normalize(distance));
+                //Debug.Log("headed from: " + gameObject.transform.position + " headed to: " + target);
             }
-            if (Vector3.Magnitude(steering) - offset == 0)
-            {
-                needsToMove = false;
-            }
-            //Debug.Log("force added: " + steering + " " + Vector3.Normalize(distance));
-            //Debug.Log("headed from: " + gameObject.transform.position + " headed to: " + target);
         }
-		
 	}
 
     public void MoveTo(Vector3 t)

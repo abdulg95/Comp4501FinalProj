@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AttackComponent : MonoBehaviour {
 
@@ -18,7 +19,7 @@ public class AttackComponent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        needsProjectileAt = 7;
+        needsProjectileAt = 10;
         targetsInRange = new List<GameObject>();
         timer = cooldown;
 
@@ -33,19 +34,26 @@ public class AttackComponent : MonoBehaviour {
         }
         if(target == null)
         {
+            if (CompareTag("Projectile"))
+            {
+                Destroy(gameObject);
+            }
             if(targetsInRange.Count > 0)
             {
                 
                 Attack(targetsInRange[0]);
+                Debug.Log(" tARGET IS: " + targetsInRange[0]);
                 //GetComponent<MovementComponent>().MoveTo(gameObject.transform.position);
             }
         }
         else if(target != null)
         {
             Attack(target);
+            Debug.Log(" tARGET IS: " + target);
             ///GetComponent<MovementComponent>().MoveTo(gameObject.transform.position);
 
         }
+        timer++;
 
     }
 
@@ -56,10 +64,16 @@ public class AttackComponent : MonoBehaviour {
 
 
             target = t;
-            //Debug.Log("range: " + range + " distance: " + DistanceTo(target));
-            if (range <= DistanceTo(target) && (t.CompareTag("enemy") ^ isEnemy))
+
+            Debug.Log("range: " + range + " distance: " + DistanceTo(target));
+            if (range >= DistanceTo(target) && (t.CompareTag("enemy") ^ isEnemy))
             {
-                gameObject.transform.LookAt(target.transform.position);
+                //Debug.Log()
+                if(!gameObject.GetComponent<NavMeshAgent>())
+                {
+                    gameObject.transform.LookAt(target.transform.position);
+                }
+                
                 if (timer >= cooldown)
                 {
 
@@ -68,6 +82,7 @@ public class AttackComponent : MonoBehaviour {
                         //code to make the projectile here
                         temp = Instantiate(projectile);
                         Vector3 vec = gameObject.transform.position;
+                        vec += gameObject.transform.forward.normalized;
                         vec.y += 1;
                         temp.transform.position = vec;
                         temp.GetComponent<AttackComponent>().Attack(target);
@@ -78,8 +93,9 @@ public class AttackComponent : MonoBehaviour {
                         if (target != null)
                         {
 
-
+                            Debug.Log("attacking: "+ target);
                             target.GetComponent<HealthComponent>().TakeDamage(damage);
+
                             if (gameObject.CompareTag("projectile"))
                             {
                                 Destroy(gameObject);
@@ -92,6 +108,10 @@ public class AttackComponent : MonoBehaviour {
                                     target = targetsInRange[0];
                                 }
                             }
+                            else
+                            {
+                                Debug.Log("attacked target has: " + target.GetComponent<HealthComponent>().currentHealth + "hp");
+                            }
                         }
 
                     }
@@ -100,7 +120,10 @@ public class AttackComponent : MonoBehaviour {
             }
             else
             {
-                GetComponent<MovementComponent>().MoveTo(target.transform.position);
+                if (!gameObject.GetComponent<NavMeshAgent>())
+                {
+                    GetComponent<MovementComponent>().MoveTo(target.transform.position);
+                }
             }
         }
     }
@@ -121,14 +144,14 @@ public class AttackComponent : MonoBehaviour {
             //Debug.Log("in range of: " + other);
             if (isEnemy)
             {
-                if (other.gameObject.CompareTag("enemy"))
+                if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("projectile"))
                 {
 
                 }
                 else
                 {
                     targetsInRange.Add(other.gameObject);
-                    Debug.Log("target added");
+                    Debug.Log("target added: " + DistanceTo(other.gameObject));
                 }
             }
             else
@@ -136,7 +159,7 @@ public class AttackComponent : MonoBehaviour {
                 if (other.gameObject.CompareTag("enemy"))
                 {
                     targetsInRange.Add(other.gameObject);
-                    Debug.Log("target added");
+                    Debug.Log("target added" + DistanceTo(other.gameObject));
                 }
                 else
                 {
@@ -157,13 +180,14 @@ public class AttackComponent : MonoBehaviour {
             //Debug.Log("left the range of: " + other);
             if (isEnemy)
             {
-                if (other.gameObject.CompareTag("enemy"))
+                if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("projectile"))
                 {
 
                 }
                 else
                 {
                     targetsInRange.Remove(other.gameObject);
+                    Debug.Log("removed: " + other.gameObject);
                 }
             }
             else
@@ -171,6 +195,7 @@ public class AttackComponent : MonoBehaviour {
                 if (other.gameObject.CompareTag("enemy"))
                 {
                     targetsInRange.Remove(other.gameObject);
+                    Debug.Log("removed: " + other.gameObject);
                 }
                 else
                 {

@@ -23,6 +23,10 @@ public class HealthComponent : MonoBehaviour {
 	void Update () {
         if (IsDead())
         {
+            if (CompareTag("goal"))
+            {
+                //code here to start the game over sequence.
+            }
             Destroy(gameObject);
         }
         else
