@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43996534, g: 0.4884454, b: 0.5686422, a: 1}
+  m_IndirectSpecularColor: {r: 0.4399656, g: 0.48844558, b: 0.568643, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2680,7 +2680,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.5220143
+  m_Radius: 0
   m_Height: 3.0440285
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2802,7 +2802,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 131607151
+  randomSeed: -938127991
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10330,7 +10330,7 @@ MonoBehaviour:
   cooldown: 50
   projectile: {fileID: 0}
   isEnemy: 0
-  target: {fileID: 0}
+  target: {fileID: 1396898192}
 --- !u!1001 &1413134714
 Prefab:
   m_ObjectHideFlags: 0

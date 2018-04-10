@@ -123,7 +123,7 @@ public class MovementComponent : MonoBehaviour {
                     //Debug.Log("arriving now");
                 }
 
-                if (follow)
+                if (follow && leader!=null)
                 {
                     steering += computeSeparation(gameObject);
                 }
