@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthComponent : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class HealthComponent : MonoBehaviour {
     public int currentHealth;
     public int regenerationDelay; // the higher this is the less the unit will regen
     private int counter;
+    public Slider Hpbar;
 
     public GameObject prefab;
 
@@ -16,6 +18,12 @@ public class HealthComponent : MonoBehaviour {
 	void Start () {
         counter = 0;
         //Spawn(new Vector3(320, 0, 130)); // do not do this in start, infinite loop out of RAM
+        if (Hpbar != null)
+        {
+            Hpbar.maxValue = maximumHealth;
+            Hpbar.value = currentHealth;
+        }
+        
 		
 	}
 	
@@ -61,5 +69,7 @@ public class HealthComponent : MonoBehaviour {
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        Hpbar.gameObject.SetActive(true);
+        Hpbar.value = currentHealth;
     }
 }
